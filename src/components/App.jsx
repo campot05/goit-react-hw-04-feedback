@@ -13,13 +13,13 @@ export function App() {
   const nameOnClick = e => {
     const name = e.target.name;
     if (name === 'good') {
-      setGood(prev => prev + 1);
+      setGood(good + 1);
     }
     if (name === 'neutral') {
-      setNeutral(prev => prev + 1);
+      setNeutral(neutral + 1);
     }
     if (name === 'bad') {
-      setBad(prev => prev + 1);
+      setBad(bad + 1);
     }
   };
 
