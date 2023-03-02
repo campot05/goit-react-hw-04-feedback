@@ -1,16 +1,54 @@
-export const App = () => {
+import { useState } from 'react';
+import css from './FeedbackOptions/FeedbackOptions.module.css';
+import FeedbackOptions from './FeedbackOptions';
+import Statistics from './Statistics';
+import Section from './Section';
+import Notification from './Notification';
+
+export function App() {
+  const [good, setGood] = useState(0);
+  const [neutral, setNeutral] = useState(0);
+  const [bad, setBad] = useState(0);
+
+  const nameOnClick = e => {
+    const name = e.target.name;
+    if (name === 'good') {
+      setGood(prev => prev + 1);
+    }
+    if (name === 'neutral') {
+      setNeutral(prev => prev + 1);
+    }
+    if (name === 'bad') {
+      setBad(prev => prev + 1);
+    }
+  };
+
+  const countTotalFeedback = () => {
+    return good + neutral + bad;
+  };
+
+  const countPositiveFeedbackPercentage = () => {
+    return Math.round((good / (good + neutral + bad)) * 100);
+  };
+
   return (
-    <div
-      style={{
-        height: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        fontSize: 40,
-        color: '#010101'
-      }}
-    >
-      React homework template
+    <div className={css.review}>
+      <Section title="Please leave feedback">
+        <FeedbackOptions click={nameOnClick} />
+      </Section>
+      {countTotalFeedback() === 0 ? (
+        <Notification message="There is no feedback" />
+      ) : (
+        <Section title="Statistics">
+          <Statistics
+            good={good}
+            neutral={neutral}
+            bad={bad}
+            total={countTotalFeedback()}
+            positivePercentage={countPositiveFeedbackPercentage()}
+          />
+        </Section>
+      )}
     </div>
   );
-};
+}
